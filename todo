@@ -1,15 +1,90 @@
 <!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <ul>
-        <li id="apple">Apple</li>
-        <li id="banana">Banana</li>
-        <li id="orange">Orange</li>
-    </ul>
-    <script src="app.js"></script>
-</body>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="todo.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>자바스크립트 투두리스트</title>
+    <style>
+      .completed {
+        text-decoration: line-through;
+        color: gray;
+      }
+      .delete-BTN
+      {
+        color: red;
+        font-weight: bold;
+      }
+      
+    </style>
+  </head>
+  <body>
+    <h1>TODO LIST</h1>
+
+    <section id="todo-container">
+      <input type="text" id="todo-input" placeholder="할 일을 입력하세요" />
+      <button id="submit-btn" type="submit">추가</button>
+
+      <div>
+        <h2>할 일 목록</h2>
+        <ul id="todo-list">
+          <!-- 할 일 항목들이 여기에 추가됩니다 -->
+        </ul>
+      </div>
+    </section>
+
+    <!-- 
+    실습 목표
+    1. 사용자가 입력한 투두를 항목에 추가하기
+    2. 투두를 클릭하면 완료되었다는 UI를 처리하기 (취소선)
+
+    과제
+    - 투두 삭제 기능 추가하기
+    - 이벤트 위임 적용하기
+    - javascript으로 css 조작해보기 (막 꾸밀 필요 x, class 값을 통해서 적용하는 부분 + style 값을 직접 지정하는 부분이 포함되면 됨)
+    
+    -->
+    <script>
+      // 0. 관련 돔 접근하기
+      const $todos = document.querySelector("#todo-list");
+      const $input = document.querySelector("#todo-input");
+      const $submitBtn = document.querySelector("#submit-btn");
+
+      function addTodo() {
+        // 1. 사용자가 입력한 텍스트를 받아옴
+        const text = $input.value;
+
+        // 2. 사용자가 입력한 텍스트를 기반으로 새로운 아이템을 만든다.
+        const $todo = document.createElement("li");
+        $todo.textContent = text;
+
+        // 2-1: 할일이 클릭되었을 때, completed라는 클래스를 넣었다가 빼는 처리
+        $todo.addEventListener("click", function () {
+          $todo.classList.toggle("completed");
+        });
+
+        // 3. 할 일 목록에 새로운 투두를 넣는다.
+        $todos.appendChild($todo);
+
+        // 4. input이 초기화, 포커스를 둔다.
+        $input.value = "";
+        $input.focus();
+
+
+        //5. 삭제 기능 추가
+        const $deleteButton = document.createElement("span");
+        $deleteButton.textContent = "X";
+        $deleteButton.classList.add("delete-BTN");
+        $deleteButton.style.marginLeft = "10px";
+
+        $todos.appendChild($deleteButton);
+        
+      }
+
+      $submitBtn.addEventListener("click", function () {
+        addTodo();
+      });
+
+    </script>
+  </body>
 </html>
